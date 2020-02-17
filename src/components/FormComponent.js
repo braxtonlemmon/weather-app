@@ -45,7 +45,8 @@ const FormComponent = (props) => {
       <Form>
         <H2>Find weather</H2>
         <Input
-          placeholder="Location"
+          // placeholder="Location"
+          placeholder={props.placeholder}
           type="text"
           name="location"
           id="location"

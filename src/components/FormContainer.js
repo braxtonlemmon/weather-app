@@ -30,6 +30,7 @@ class FormContainer extends Component {
     return(
       <FormComponent 
         data={this.state}
+        placeholder={this.props.placeholder}
         handleSubmit={this.handleSubmit}
         handleChange={this.handleChange}
       />
