@@ -36,7 +36,7 @@ class App extends Component {
   async getWeatherData(city, unit) {
     try {
       const key = process.env.REACT_APP_WEATHER_API_KEY;
-      const response = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&units=${unit}&appid=${key}`, { mode: 'cors' });
+      const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${unit}&appid=${key}`, { mode: 'cors' });
       if (response.status !== 200) {
         throw new Error('not 200 response');
       } else return response.json();
