@@ -1,23 +1,42 @@
 import React, {Component} from 'react';
-import './App.css';
+import { Reset } from 'styled-reset';
+import styled from 'styled-components';
+import GlobalStyle from './components/GlobalStyle.js';
+import ReactLoading from 'react-loading';
+
 import Header from './components/Header.js';
 import FormContainer from './components/FormContainer.js';
 import Main from './components/Main.js';
-// import getWeatherData from './utils/getWeatherData.js'
+
+const Wrapper = styled.div`
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    `
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      temp: '5',
-      high: '3',
-      low: '4',
-      humidity: '33',
-      wind: '22',
-      location: 'London'
+      temp: '',
+      high: '',
+      low: '',
+      humidity: '',
+      wind: '',
+      location: 'Berlin',
+      loaded: false,
     }
     this.updateLocation = this.updateLocation.bind(this);
     this.processData = this.processData.bind(this);
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.getWeatherData('Berlin', 'metric')
+      .then(data => this.processData(data))
+      .then(result => this.setState({loaded: true}))
+    }, 1200);
   }
 
   async getWeatherData(city, unit) {
@@ -29,35 +48,41 @@ class App extends Component {
 
   processData(json) {
     this.setState({
-      temp: json.main.temp,
-      low: json.main.temp_min,
-      high: json.main.temp_max,
+      temp: Math.round(json.main.temp),
+      low: Math.round(json.main.temp_min),
+      high: Math.round(json.main.temp_max),
       humidity: json.main.humidity,
       wind: json.wind.speed
     })
   }
    
   updateLocation(formData) {
-    this.setState({location: formData.location}, function() {
-      console.log(this.state.location);
-      this.getWeatherData(this.state.location, 'imperial')
-      .then((data) => this.processData(data));
-    })
+    this.setState({ loaded: false, location: formData.location }, () => {
+        setTimeout(() => {
+          this.getWeatherData(this.state.location, 'metric')
+            .then(data => this.processData(data))
+            .then(() => this.setState({ loaded: true }))
+        }, 1200)
+      }
+    )
   }
   
-
   render() {
     return (
-      <div className="App">
+      <Wrapper>
+        <Reset />
+        <GlobalStyle />
         <Header />
         <FormContainer updateLocation={this.updateLocation} />
-        <Main data={this.state} />
-      </div>
+        {!this.state.loaded ? 
+          (<ReactLoading type={'bubbles'} color={'#143642'} />) : 
+          (<Main data={this.state} />)
+        }
+
+      </Wrapper>
     )
   }
 }
-
-
 
 export default App;
 
