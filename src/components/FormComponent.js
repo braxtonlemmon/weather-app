@@ -39,13 +39,13 @@ const Button = styled.button`
   font-weight: bold;
   cursor: pointer;
 `
+
 const FormComponent = (props) => {
   return (
     <FormWrapper>
       <Form>
         <H2>Find weather</H2>
         <Input
-          // placeholder="Location"
           placeholder={props.placeholder}
           type="text"
           name="location"

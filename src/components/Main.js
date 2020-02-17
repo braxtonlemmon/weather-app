@@ -3,7 +3,10 @@ import styled from 'styled-components';
 
 const MainWrapper = styled.div`
   width: 80%;
-
+  padding: 20px;
+  margin-top: 15px;
+  border-left: 5px ridge #143642;
+  
   @media only screen and (min-width: 600px) {
     width: 60%;
   }  
