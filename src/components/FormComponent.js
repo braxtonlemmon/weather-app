@@ -37,6 +37,7 @@ const Button = styled.button`
   color: #EC9A29;
   background: #A8201A;
   font-weight: bold;
+  cursor: pointer;
 `
 const FormComponent = (props) => {
   return (
